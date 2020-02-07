@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-	const button = document.getElementById("choose-pic")
+	const button = document.getElementById("choose-img")
 	
 	function loadImage(src) {
 		const img = new Image()
@@ -20,9 +20,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
 	async function pop() {
 		const net = await bodyPix.load({
-			architecture: "MobileNetV1",
+			architecture: "ResNet50",
 			outputStride: 16,
-			mutliplier: 0.75,
+			// mutliplier: 0.75,
 			quantBytes: 2
 		})
 
@@ -52,5 +52,15 @@ document.addEventListener("DOMContentLoaded", () => {
 		ctx.putImageData(newImg, 0, 0);
 	}
 
-	loadImage("assets/adam2.jpg")
+	button.addEventListener("change", (input) => {
+		if (input.target.files[0]) {
+			var reader = new FileReader()
+
+			reader.addEventListener("load", (e) => {
+				loadImage(e.target.result)
+			})
+
+			reader.readAsDataURL(input.target.files[0])
+		}
+	})
 })
